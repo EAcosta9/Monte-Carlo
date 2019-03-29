@@ -1,0 +1,81 @@
+# -*- coding: utf-8 -*-
+"""
+Monte Carlo simulation to solve the monte hall problem
+if switch is passed as True then the simulations will run with the
+contestant choosing to switch every time. Otherwise the contestant will
+keep their original choice of guess.
+
+@author: Emanuel
+"""
+
+import numpy
+import matplotlib
+
+def switch(a,b,rev):
+    if(a == rev):
+        return b;
+    if(b == rev):
+        return a;
+def chooseprizedoor():
+    y = numpy.zeros(3);
+    p = numpy.random.uniform(low=0,high=1,size=1);
+    if (p <1/3):
+        y[0] = 1;
+    elif (p > 1/3 and p < 2/3):
+        y[1] = 1;
+    else:
+        y[2] = 1;
+    return y;
+
+def chooseguess():
+    p = numpy.random.uniform(low=0,high=1,size=1);
+    if (p <1/3):
+        g = 0;
+        a = 1;
+        b = 2;
+    elif (p > 1/3 and p < 2/3):
+        g = 1;
+        a = 2;
+        b = 0;
+    else:
+        g = 2;
+        a = 0;
+        b = 1;
+    return g,a,b;
+def reveal(y,g,a,b):
+    rev = -1
+    if(y[g] == 1):
+        p = numpy.random.uniform(low=0,high=1,size=1);
+        if(p < 1/2):
+            rev = a;
+        else:
+            rev = b;
+    if(y[g] != 1):
+        if(y[a] == 1):
+            rev = b;
+        else:
+            rev = a;
+    return rev;
+
+def Montyhall(num_steps,switcho):
+    l = 0;
+    c = 0;
+    pr = numpy.zeros(num_steps);
+    for n in range(num_steps):
+        c = c+1
+    #Choose a door to hide the prize behind.
+        y = chooseprizedoor();
+    #generate another random number and make another guess
+        g,a,b = chooseguess();
+        rev = reveal(y,g,a,b)
+        if (switcho == 1):
+            g = switch(a,b,rev)
+        if(y[g] == 1):
+            l = l+1;
+        pr[n] = l/(n+1)
+    t = l/num_steps
+    print("The average acceptance rate is", t);
+    return pr,t
+ 
+stay,finstay = Montyhall(10000,0)
+switch,finswitch = Montyhall(10000,1)
