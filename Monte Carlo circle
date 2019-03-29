@@ -1,0 +1,26 @@
+# -*- coding: utf-8 -*-
+"""
+Monte carlo to find pi using the area of a quarter circle.
+NxN random coordinates are placed randomly in the box
+The proportion of points inside vs outside the quarter circle
+is equal to the proportion of the circle area to the area of the box. 
+
+V/1 = C/N -> V = pi*r^2/4 = pi/4
+pi = 4* c/n
+
+@author: Emanuel
+"""
+
+import numpy
+def circlemont(N):
+    x = numpy.random.uniform(low = 0,high =1,size = N);
+    y = numpy.random.uniform(low = 0,high =1,size = N);
+    c = 0
+    for n in range(N):
+        r = x[n]**2 + y[n]**2 ;
+        if(r < 1):
+            c = c+1;
+    print("The estimated value of pi is", 4*c/N)
+
+R = 100000;
+circlemont(R);
