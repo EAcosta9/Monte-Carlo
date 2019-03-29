@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+"""
+@author: Emanuel
+
+Buffons Needle experiment for a short stick  l < d
+
+"""
+
+
+import numpy
+
+d = 2
+l = 1
+
+def Buffon(num_steps):
+    c = 0
+    x = (d/2)*numpy.random.uniform(low = 0, high = 1, size = num_steps)
+    theta = (3.141592653/2)*numpy.random.uniform(low = 0, high = 1, size = num_steps)
+    for n in range(num_steps):
+        right = (l/2)*(numpy.sin(theta[n]))
+        if x[n] <= right:
+            c  =c+1
+    pi = num_steps/c
+    return pi
+
+g = 100000
+print(Buffon(g))
